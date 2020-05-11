@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面向对象编程</title>
+    <style>
+        .d1 {
+            width: 50px;
+            height: 50px;
+            padding: 5px;
+            background-color: red;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+</body>
+<ul>
+    <li></li>
+</ul>
+<code>
+    window.onload = function () {
+        /*
+        面向对象编程 constructor = 赋值、初始化
+        注意类内部函数 赋值给dom 回调 this指向，setTimeout、event
+        
+        */
+       class DragDiv {
+            constructor (cn) {
+                this.nodeDiv = document.getElementsByClassName(cn)[0];
+                this.disX = 0;
+                this.disY = 0;
+                console.log(this.nodeDiv, 1)
+                // 类内部的方法绑定给dom元素时回调函数 this指向改变
+                this.md = this.md.bind(this);
+                this.mv = this.mv.bind(this);
+                this.init()
+            }
+            init () {
+                this.nodeDiv.onmousedown = this.md;
+            }
+            md (event)  {
+                console.log(123)
+                let ev = event || window.event;
+                this.disX = ev.clientX - this.nodeDiv.offsetLeft;
+                this.disY = ev.clientY - this.nodeDiv.offsetTop;
+                document.onmousemove = this.mv;
+                document.onmouseup = this.mp;
+                return false
+            }
+            mv (event) {
+                let ev = event || window.event;
+                this.nodeDiv.style.left = (ev.clientX - this.disX) + 'px';
+                this.nodeDiv.style.top = (ev.clientY - this.disY) + 'px';
+            }
+            mp () {
+                document.onmousemove = null;
+                document.onmouseup = null;
+            }
+       }
+       let d = new DragDiv('d1')
+    }
+</code>
+<div class="d1"></div>
+<script>
+    window.onload = function () {
+        /*
+        面向对象编程 constructor = 赋值、初始化
+        注意类内部函数 赋值给dom 回调 this指向，setTimeout、
+        
+        */
+       class DragDiv {
+            constructor (cn) {
+                this.nodeDiv = document.getElementsByClassName(cn)[0];
+                this.disX = 0;
+                this.disY = 0;
+                console.log(this.nodeDiv, 1)
+                // 类内部的方法绑定给dom元素时回调函数 this指向改变
+                this.md = this.md.bind(this);
+                this.mv = this.mv.bind(this);
+                this.init()
+            }
+            init () {
+                this.nodeDiv.onmousedown = this.md;
+            }
+            md (event)  {
+                console.log(123)
+                let ev = event || window.event;
+                this.disX = ev.clientX - this.nodeDiv.offsetLeft;
+                this.disY = ev.clientY - this.nodeDiv.offsetTop;
+                document.onmousemove = this.mv;
+                document.onmouseup = this.mp;
+                return false
+            }
+            mv (event) {
+                let ev = event || window.event;
+                this.nodeDiv.style.left = (ev.clientX - this.disX) + 'px';
+                this.nodeDiv.style.top = (ev.clientY - this.disY) + 'px';
+            }
+            mp () {
+                document.onmousemove = null;
+                document.onmouseup = null;
+            }
+       }
+       let d = new DragDiv('d1')
+    }
+</script>
+<script src="https://cdn.bootcss.com/d3/4.13.0/d3.js"></script>
+</html>
