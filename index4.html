@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>vue-router 原理</title>
+    <link rel="stylesheet" href="menu/menu.css">
+</head>
+<body>
+</body>
+<script>
+    class VueRouter {
+        constructor (options) {
+            this.$options = options;
+            this.routeMap = {};
+            // vue-router与vue进行了强绑定
+            this.app = new Vue({
+                data: {
+                    current: '/'
+                }
+            })
+        }
+        initComponent (Vue) {
+            Vue.component('router-link', {
+                props: {to: String},
+                render (h) {
+                    return h('a', {attrs: {href: '#' + this.to}}, [this.$slots.default])
+                }
+            })
+            Vue.component('router-view', {
+                // 箭头函数，把this指向当前实例
+                render: (h) => {
+                    const component = this.routeMap[this.app.current]
+                    return h(component)
+                }
+            })
+        }
+        createRouteMap () {
+            this.options.rules.forEach(item => {
+                this.routeMap[item.path] = item.component;
+            });
+        }
+        onHashChange () {
+            this.app.current = window.location.hash.slice(1) || '/'
+        }
+        bindEvents () {
+            // bindthis  dom绑定事件的this指向的是  dom对象，非当前实例对象
+            // 页面加载完成
+            window.addEventListener('load', this.onHashChange.bind(this));
+            // 页面hash值改变
+            window.addEventListener('hashchange', this.onHashChange.bind(this))
+        }
+        init (Vue) {
+            // 监视变换
+            this.bindEvents();
+            // 生成路由表
+            this.createRouteMap();
+            // 创建router-link， router-view组件
+            this.initComponent(Vue);
+        }
+        install (vue) {
+            vue.minxs({
+                beforeCreate () {
+                    if (this.$options.router) {
+                        Vue.prototype.$router = this.$options.router;
+                        this.$options.router.init(Vue);
+                    }
+                }
+            })
+        }
+    }
+</script>
+<script src="menu/menu.js"></script>
+</html>

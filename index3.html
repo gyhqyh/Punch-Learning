@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>算法</title>
+    <link rel="stylesheet" href="menu/menu.css">
+</head>
+<body>
+</body>
+<script>
+    var arr = [2, 5, 8, 3, 99, 27, 6 , 4, 2];
+    function insertSort (arr) {
+        for (let i = 1; i < arr.length; i++) {
+            let j = i - 1;
+            let v = arr[i];
+            while (j >= 0 && arr[j] >= v) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = v;
+        }
+    }
+    function quickSort (arr, l, r) {
+        if (r > l) {
+            let q = findQ(arr, l, r);
+            quickSort(arr, l, q-1);
+            quickSort(arr, q+1, r);
+        }
+    }
+    function findQ(arr, l, r) {
+        let v = arr[r];
+        let j = l -1;
+        for (let i = l; i < r; i++) {
+            if (arr[i] >= v) {
+                j++;
+                [arr[j], arr[i]] = [arr[i], arr[j]];
+            }  
+        }
+        [arr[j + 1], arr[r]] = [arr[r], arr[j + 1]];
+        return j+1;
+    }
+    function binarySearch(arr, t) {
+        insertSort(arr);
+        // quickSort(arr, 0, arr.length -1)
+        let l = 0;
+        let r = arr.length;
+        while(r >= l) {
+            let m = Number.parseInt((l + r) / 2);
+            if (arr[m] === t) {
+                return m;
+            }else if (arr[m] > t) {
+                r = m -1;
+            } else {
+                l = m + 1;
+            }
+        }
+        return -1;
+    }
+    binarySearch(arr, 22)
+</script>
+<script src="menu/menu.js"></script>
+</html>

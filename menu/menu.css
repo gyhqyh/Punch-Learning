@@ -1,0 +1,21 @@
+body,html {
+    position: relative;
+    padding-left: 200px;
+    background-color: green
+}
+.menu {
+   position: absolute; 
+   width: 200px;
+   height: 100vh;
+}
+.menu ul li {
+    line-height: 20px;
+    padding: 5px;
+    cursor: pointer;
+}
+.menu ul li:hover {
+    background-color: gery;
+}
+.menu ul li.active {
+    background-color: yellowgreen;
+}
