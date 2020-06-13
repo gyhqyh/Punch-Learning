@@ -59,11 +59,6 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_module/,
-                /*
-                "eslintConfig": {
-                    "extends": "airbnb-base"
-                }
-                */
                 loader: 'babel-loader',
                 options: {
                     presets: [
