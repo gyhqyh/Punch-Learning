@@ -6,7 +6,8 @@ modules.exports = {
 
     entry: './src/index.js',
     output: {
-        filename: 'js/build.js',
+        // hash 为了解决缓存问题，
+        filename: 'js/build.[hash:8].js',
         path: resolve(__dirname, 'build')
     },
     moudle: {
@@ -155,8 +156,9 @@ modules.exports = {
                 removeComments:true
             }
         }),
+        // hash 为了缓存，为了服务器更新完成后，用户刷新可以看到最新的文件
         new MiniCssExtractPlug({
-            filename: 'css/build.css'
+            filename: 'css/build.[hash].css'
         }),
         new OptimizeCssAssetsWebpackPlugin()
     ],
@@ -173,6 +175,29 @@ modules.exports = {
     // 代码调试
     devtool: 'source-map'
 }
+/**
+ 代码分割
+    
+ * /
+/*
+tree shake
+    作用：去除业务程序中没有使用的代码（js css)
+        前提：1.es6 module 2.production（mode）
+    在package.json 中配置 - "sideEffects": false - 所有代码都没有副作用（都可以tree shake）
+                            "sideEffects": ["*.css"] - 避免被tree shake干掉css文件
+*/
+/*
+缓存：
+    babel缓存
+        cacheDirectory: true
+        第二次打包更快
+    文件资源缓存
+        上线代码性能优化
+        hash 每次webpack都会生成一个唯一hash，如果某个文件改动，热更新，导致所有缓存失效
+        chunkhash 你打包来自同一个chunk，那么hash值就一样
+        contenthash 根据文件内容生成hash，不同文件hash一定不同
+
+*/
 /*
 hmr: hot module replacement
 作用： 一个魔铠发生变化，只打包变化模块
