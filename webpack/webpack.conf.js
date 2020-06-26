@@ -175,10 +175,7 @@ modules.exports = {
     // 代码调试
     devtool: 'source-map'
 }
-/**
- 代码分割
-    
- * /
+
 /*
 tree shake
     作用：去除业务程序中没有使用的代码（js css)
