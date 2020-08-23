@@ -1,0 +1,29 @@
+<!DOCtYPE html>
+<html>
+	<head>
+		<meta chartset="utf-8"/>
+		<title>test</title>
+	</head>
+	<body>
+		<form action="http://localhost:3000/post" method="POST">
+			<input type="text" name='username' value='gzj'>
+			<input type="text" name='password' value='123'>
+			<input type="submit" value='tijiao'>
+		</form>
+	</body>
+	<script>
+		window.onload = function () {
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', 'http://localhost:3000/serve?a=2&b=3', true);
+			xhr.timeout = 4000;
+			xhr.setRequestHeader('Content-Type','application/json;charset=utf-8');
+			xhr.onload = function () {
+				console.log(xhr.response);
+			};
+			xhr.ontimeout = function (e) {
+				console.log(2, '超时了');
+			};
+			xhr.send(JSON.stringify({a: 1, b: 2, c: 3}));
+		}
+	</script>
+</html>
